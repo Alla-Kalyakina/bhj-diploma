@@ -13,12 +13,11 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor(element) {
-    if(element == '') {
+    if(!element) {
       throw new Error('error');
-    } else {
+    }
       this.element = element;
       this.registerEvents();
-    }
   }
 
   /**
