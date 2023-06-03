@@ -43,9 +43,9 @@ class User {
       data: this.current(),
       callback: (err, response) => {
         if (response && response.success) {
-          User.setCurrent(response.user);
+          this.setCurrent(response.user);
         } else {
-          User.unsetCurrent();
+          this.unsetCurrent();
         }
         callback(err, response);
       }
@@ -105,7 +105,7 @@ class User {
       responseType: 'json',
       callback: (err, response) => {
         if (response) {
-          User.unsetCurrent();
+          this.unsetCurrent();
           callback(err, response);
         }
       }
