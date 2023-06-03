@@ -11,7 +11,7 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor( element ) {
-    if (element === '') {
+    if (!element) {
       throw new Error('error');
     }
     this.element = element;
@@ -34,9 +34,9 @@ class TransactionsPage {
    * */
   registerEvents() {
     document.addEventListener('click', elem => {
-      if (elem.target.classList.contains('remove-account')) {
+      if (elem.target.closest('.remove-account')) {
         this.removeAccount();
-      } else if (elem.target.classList.contains('transaction__remove')) {
+      } else if (elem.target.closest('.transaction__remove')) {
         this.removeTransaction(elem.target.dataset.id);
       }
     })
@@ -58,7 +58,7 @@ class TransactionsPage {
     const question = confirm('Вы действительно хотите удалить счёт?');
     if (question) {
       const id = document.querySelector('li.active').dataset.id;
-      Account.remove({id: id}, response => {
+      Account.remove({id: id}, (err, response) => {
         if (response && response.success === true) {
           App.updateWidgets();
           App.updateForms();
@@ -77,7 +77,7 @@ class TransactionsPage {
   removeTransaction(id) {
     const question = confirm('Вы действительно хотите удалить транзакцию?');
     if (question) {
-      Transaction.remove({id: id}, response => {
+      Transaction.remove({id: id}, (err, response) => {
         if (response && response.success === true) {
           App.update();
         }
@@ -94,12 +94,12 @@ class TransactionsPage {
   render(options){
     if (options) {
       this.lastOptions = options;
-      Account.get(options.account_id, response => {
+      Account.get(options.account_id, (err, response) => {
         if (response.success) {
           this.renderTitle(response.data.name);
         }
       })
-      Transaction.list(options, response => {
+      Transaction.list(options, (err, response) => {
         if(response.success) {
           this.renderTransactions(response.data);
         }
