@@ -14,7 +14,7 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    if (element === '') {
+    if (!element) {
       throw new Error('error');
     }
     this.element = element;
@@ -52,14 +52,14 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-    const data = User.current();
-    if (data) {
-      Account.list(data, response => {
+    const userData = User.current();
+    if (userData) {
+      Account.list(userData, (err, response) => {
         if (response && response.success === true) {
           this.clear();
           response.data.forEach((value) => {
             this.renderItem(value);
-          })
+          });
         }
       })
     }
